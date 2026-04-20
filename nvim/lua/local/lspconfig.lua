@@ -67,8 +67,8 @@ local attach_func = function(client, bufnr)
     border = 'double',
   }
 
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, hover_config)
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, hover_config)
+  -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, hover_config)
+  -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, hover_config)
 
   if client.server_capabilities.documentHighlightProvider then
     api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -105,9 +105,7 @@ local attach_func = function(client, bufnr)
 end
 
 local config = function()
-  -- LSP logging to debug
-  vim.lsp.set_log_level("debug")
-  -- vim.lsp.set_log_level("trace")
+  vim.lsp.set_log_level("warn")
 
   -- some diagnostic settings
   vim.diagnostic.config({
