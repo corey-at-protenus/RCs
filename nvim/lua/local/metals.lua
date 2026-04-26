@@ -22,6 +22,7 @@ local opts = function()
       "-Xmx4g",
     },
     startMcpServer = true,
+    millScript = F.resolve_exe_path("mill"),
     -- serverVersion = "latest.snapshot",
   }
   metals_config.tvp["icons"] = { enabled = true }
