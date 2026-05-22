@@ -445,7 +445,7 @@ vim.g.rainbow_delimiters = {
 
 -- strip whitespace on save
 vim.api.nvim_create_autocmd( "FileType", {
-  pattern = { 'text', 'markdown', 'html', 'xhtml', 'javascript', 'typescript', 'scala', 'c', 'java', 'go', 'rust', 'c++', 'lua', 'kotlin' },
+  pattern = { 'text', 'markdown', 'html', 'xhtml', 'javascript', 'typescript', 'scala', 'c', 'java', 'go', 'rust', 'c++', 'lua', 'kotlin', 'python' },
   command = 'EnableStripWhitespaceOnSave'
 })
 
