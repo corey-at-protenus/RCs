@@ -152,49 +152,13 @@ local to_install = {
     end
   },
   {
-    'nvim-treesitter/nvim-treesitter',
-    lazy = false,
-    build = ":TSUpdate",
-    config = function ()
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-        ensure_installed = {
-          "lua",
-          "vim",
-          "vimdoc",
-          "bash",
-          "scala",
-          "javascript",
-          "html",
-          "properties",
-          "sql",
-          "python",
-          "hocon",
-          "yaml"
-        },
-        auto_install = false,
-        sync_install = false,
-        highlight = { enable = true },
-        indent = { enable = true },
+    "romus204/tree-sitter-manager.nvim",
+    dependencies = {},
+    config = function()
+      require("tree-sitter-manager").setup({
       })
     end
-
   },
-
-  {
-    'nvim-treesitter/nvim-treesitter-context',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter'
-    },
-    config = function()
-      require('treesitter-context').setup {
-        max_lines = 4,
-        min_window_height = 30
-      }
-    end
-  },
-
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = {
@@ -233,33 +197,6 @@ local to_install = {
   },
 
   {
-    "jackMort/ChatGPT.nvim",
-    config = function()
-      local secret_tool_exists = os.execute("type secret-tool >/dev/null 2>&1")
-      local have_key = os.execute("type secret-tool lookup openai api-key >/dev/null 2>&1")
-
-      if secret_tool_exists == 0 and have_key == 0 then
-        require("chatgpt").setup({
-          api_key_cmd = "secret-tool lookup openai api-key",
-          openai_params = {
-            model = "gpt-4",
-            max_tokens = 8000
-          },
-          openai_edit_params = {
-            model = "gpt-4"
-          }
-        })
-      end
-    end,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      "folke/trouble.nvim"
-    }
-  },
-
-  {
     'nvimdev/hlsearch.nvim',
     event = 'BufRead',
     config = function()
@@ -286,18 +223,6 @@ local to_install = {
   },
   {
     'vala-lang/vala.vim',
-  },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' },
-    ft = { "markdown", "codecompanion" },
-    config = function ()
-      require('render-markdown').setup({
-        code = {
-          border = 'thick',
-        },
-      })
-    end
   },
   {
     "echasnovski/mini.diff",
@@ -331,42 +256,6 @@ local to_install = {
     end
   },
 }
-
-if vim.loop.os_uname().sysname == "Darwin" then
-  table.insert(to_install, {
-    'github/copilot.vim',
-    config = function()
-      -- stop copilot completion. Ain't no vibe strong enough for me to accept this yet.
-      vim.g.copilot_filetypes = {
-        ['*'] = false
-      }
-    end
-  })
-  table.insert(to_install, {
-    "olimorris/codecompanion.nvim",
-    tag = "v17.33.0",
-    opts = {},
-    dependencies = {
-      "github/copilot.vim",
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "ravitemer/mcphub.nvim"
-    },
-    config = function()
-      require("codecompanion").setup({
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            make_vars = true,
-            make_slash_commands = true,
-            show_result_in_chat = true
-          }
-        }
-      })
-      vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-    end
-  })
-end
 
 if F.is_executable("claude") then
   table.insert(to_install, {

@@ -106,8 +106,6 @@ end
 
 local config = function()
   -- LSP logging to debug
-  vim.lsp.set_log_level("debug")
-  -- vim.lsp.set_log_level("trace")
 
   -- some diagnostic settings
   vim.diagnostic.config({
