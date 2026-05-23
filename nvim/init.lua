@@ -113,6 +113,12 @@ local to_install = {
           return not disabled
         end
       }
+
+      cmp.setup.filetype({ 'codecompanion' }, {
+        sources = {
+          { name = 'codecompanion' }
+        }
+      })
     end
   },
 
@@ -137,8 +143,17 @@ local to_install = {
   {
     "j-hui/fidget.nvim",
     opts = {
-      ignore_done_already = true,
-      ignore_empty_message = true
+      progress = {
+        ignore_done_already = true,
+        ignore_empty_message = true,
+      },
+      notification = {
+        window = {
+          avoid = {
+            'NvimTree'
+          }
+        }
+      },
     },
   },
   {
@@ -255,6 +270,47 @@ local to_install = {
       }
     end
   },
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    ft = { "markdown", "codecompanion" }
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    tag = "v19.13.0",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      -- "ravitemer/mcphub.nvim",
+      "OXY2DEV/markview.nvim"
+    },
+    opts = {
+      interactions = {
+        chat = {
+          adapter = "gemini"
+        },
+        inline = {
+          adapter = "gemini"
+        },
+        background = {
+          adapter = "gemini"
+        },
+        cmd = {
+          adapter = "gemini"
+        }
+      },
+      -- mcphub = {
+      --   callback = "mcphub.extensions.codecompanion",
+      --   opts = {
+      --     make_vars = true,
+      --     make_slash_commands = true,
+      --     show_result_in_chat = true
+      --   }
+      -- },
+      opts = {
+        log_level = "DEBUG"
+      }
+    }
+  }
 }
 
 if F.is_executable("claude") then
@@ -450,4 +506,6 @@ vim.api.nvim_create_autocmd( "FileType", {
 })
 
 vim.g.strip_whitespace_confirm = 0
+
+vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
 
