@@ -113,6 +113,12 @@ local to_install = {
           return not disabled
         end
       }
+
+      cmp.setup.filetype({ 'codecompanion' }, {
+        sources = {
+          { name = 'codecompanion' }
+        }
+      })
     end
   },
 
@@ -137,8 +143,17 @@ local to_install = {
   {
     "j-hui/fidget.nvim",
     opts = {
-      ignore_done_already = true,
-      ignore_empty_message = true
+      progress = {
+        ignore_done_already = true,
+        ignore_empty_message = true,
+      },
+      notification = {
+        window = {
+          avoid = {
+            'NvimTree'
+          }
+        }
+      },
     },
   },
   {
@@ -152,49 +167,13 @@ local to_install = {
     end
   },
   {
-    'nvim-treesitter/nvim-treesitter',
-    lazy = false,
-    build = ":TSUpdate",
-    config = function ()
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-        ensure_installed = {
-          "lua",
-          "vim",
-          "vimdoc",
-          "bash",
-          "scala",
-          "javascript",
-          "html",
-          "properties",
-          "sql",
-          "python",
-          "hocon",
-          "yaml"
-        },
-        auto_install = false,
-        sync_install = false,
-        highlight = { enable = true },
-        indent = { enable = true },
+    "romus204/tree-sitter-manager.nvim",
+    dependencies = {},
+    config = function()
+      require("tree-sitter-manager").setup({
       })
     end
-
   },
-
-  {
-    'nvim-treesitter/nvim-treesitter-context',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter'
-    },
-    config = function()
-      require('treesitter-context').setup {
-        max_lines = 4,
-        min_window_height = 30
-      }
-    end
-  },
-
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = {
@@ -233,33 +212,6 @@ local to_install = {
   },
 
   {
-    "jackMort/ChatGPT.nvim",
-    config = function()
-      local secret_tool_exists = os.execute("type secret-tool >/dev/null 2>&1")
-      local have_key = os.execute("type secret-tool lookup openai api-key >/dev/null 2>&1")
-
-      if secret_tool_exists == 0 and have_key == 0 then
-        require("chatgpt").setup({
-          api_key_cmd = "secret-tool lookup openai api-key",
-          openai_params = {
-            model = "gpt-4",
-            max_tokens = 8000
-          },
-          openai_edit_params = {
-            model = "gpt-4"
-          }
-        })
-      end
-    end,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      "folke/trouble.nvim"
-    }
-  },
-
-  {
     'nvimdev/hlsearch.nvim',
     event = 'BufRead',
     config = function()
@@ -286,18 +238,6 @@ local to_install = {
   },
   {
     'vala-lang/vala.vim',
-  },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' },
-    ft = { "markdown", "codecompanion" },
-    config = function ()
-      require('render-markdown').setup({
-        code = {
-          border = 'thick',
-        },
-      })
-    end
   },
   {
     "echasnovski/mini.diff",
@@ -330,43 +270,48 @@ local to_install = {
       }
     end
   },
-}
-
-if vim.loop.os_uname().sysname == "Darwin" then
-  table.insert(to_install, {
-    'github/copilot.vim',
-    config = function()
-      -- stop copilot completion. Ain't no vibe strong enough for me to accept this yet.
-      vim.g.copilot_filetypes = {
-        ['*'] = false
-      }
-    end
-  })
-  table.insert(to_install, {
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    ft = { "markdown", "codecompanion" }
+  },
+  {
     "olimorris/codecompanion.nvim",
-    tag = "v17.33.0",
-    opts = {},
+    tag = "v19.13.0",
     dependencies = {
-      "github/copilot.vim",
       "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "ravitemer/mcphub.nvim"
+      -- "ravitemer/mcphub.nvim",
+      "OXY2DEV/markview.nvim"
     },
-    config = function()
-      require("codecompanion").setup({
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            make_vars = true,
-            make_slash_commands = true,
-            show_result_in_chat = true
-          }
+    opts = {
+      interactions = {
+        chat = {
+          adapter = "gemini"
+        },
+        inline = {
+          adapter = "gemini"
+        },
+        background = {
+          adapter = "gemini"
+        },
+        cmd = {
+          adapter = "gemini"
         }
-      })
-      vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-    end
-  })
-end
+      },
+      -- mcphub = {
+      --   callback = "mcphub.extensions.codecompanion",
+      --   opts = {
+      --     make_vars = true,
+      --     make_slash_commands = true,
+      --     show_result_in_chat = true
+      --   }
+      -- },
+      opts = {
+        log_level = "DEBUG"
+      }
+    }
+  }
+}
 
 if F.is_executable("claude") then
   table.insert(to_install, {
@@ -566,9 +511,11 @@ vim.g.rainbow_delimiters = {
 
 -- strip whitespace on save
 vim.api.nvim_create_autocmd( "FileType", {
-  pattern = { 'text', 'markdown', 'html', 'xhtml', 'javascript', 'typescript', 'scala', 'c', 'java', 'go', 'rust', 'c++', 'lua', 'kotlin' },
+  pattern = { 'text', 'markdown', 'html', 'xhtml', 'javascript', 'typescript', 'scala', 'c', 'java', 'go', 'rust', 'c++', 'lua', 'kotlin', 'python' },
   command = 'EnableStripWhitespaceOnSave'
 })
 
 vim.g.strip_whitespace_confirm = 0
+
+vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
 

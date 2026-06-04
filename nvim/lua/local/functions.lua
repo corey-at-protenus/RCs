@@ -92,7 +92,7 @@ local function carriage_return()
   end
 end
 
-local function is_executable(executable)
+local function resolve_exe_path(executable)
   local handle = io.popen("command -v " .. executable)
   if handle == nil then
     return false
@@ -101,7 +101,11 @@ local function is_executable(executable)
   local result = handle:read("*a")
   handle:close()
 
-  return result ~= ""
+  return result:match("^(.-)%s*$")
+end
+
+local function is_executable(executable)
+  return resolve_exe_path(executable) ~= ""
 end
 
 
@@ -113,5 +117,6 @@ return {
   s_tab_complete = s_tab_complete,
   tab_complete = tab_complete,
   toggleqf = toggleqf,
+  resolve_exe_path = resolve_exe_path,
   is_executable = is_executable,
 }
