@@ -84,14 +84,6 @@ local attach_func = function(client, bufnr)
     })
   end
 
-  if client.server_capabilities.codeLensProvider then
-    api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-      buffer = bufnr,
-      callback = vim.lsp.codelens.refresh,
-      group = lsp_group
-    })
-  end
-
   api.nvim_create_autocmd("FileType", {
     pattern = { "dap-repl" },
     callback = function()
@@ -105,7 +97,6 @@ local attach_func = function(client, bufnr)
 end
 
 local config = function()
-  vim.lsp.set_log_level("warn")
 
   -- some diagnostic settings
   vim.diagnostic.config({
@@ -194,6 +185,9 @@ local config = function()
   if F.is_executable("vala-language-server") then
     vim.lsp.enable('vala_ls')
   end
+
+  -- codelens everywhere
+  vim.lsp.codelens.enable(true)
 end
 
 

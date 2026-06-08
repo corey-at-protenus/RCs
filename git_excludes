@@ -29,3 +29,5 @@ conf/it.conf
 .scala-build
 derby.log
 metastore_db
+
+**/.claude/settings.local.json
