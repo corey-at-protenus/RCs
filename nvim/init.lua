@@ -56,6 +56,7 @@ local to_install = {
           { name = "nvim_lsp" },
           { name = "vsnip" },
           { name = "cmp-nvim-lsp-signature-help" },
+          { name = "codecompanion" },
         }, {
             { name = "buffer" }
         }),
@@ -276,38 +277,21 @@ local to_install = {
     ft = { "markdown", "codecompanion" }
   },
   {
-    "olimorris/codecompanion.nvim",
-    tag = "v19.13.0",
+    "coreyoconnor/codecompanion.nvim",
+    commit = "4e2a58722146943e7451f6576eb7187c4e3ae5f6",
     dependencies = {
       "nvim-lua/plenary.nvim",
       -- "ravitemer/mcphub.nvim",
       "OXY2DEV/markview.nvim"
     },
     opts = {
-      interactions = {
-        chat = {
-          adapter = "gemini"
-        },
-        inline = {
-          adapter = "gemini"
-        },
-        background = {
-          adapter = "gemini"
-        },
-        cmd = {
-          adapter = "gemini"
-        }
-      },
-      -- mcphub = {
-      --   callback = "mcphub.extensions.codecompanion",
-      --   opts = {
-      --     make_vars = true,
-      --     make_slash_commands = true,
-      --     show_result_in_chat = true
-      --   }
-      -- },
       opts = {
-        log_level = "DEBUG"
+        log_level = "DEBUG",
+        per_project_config = {
+          files = {
+            ".codecompanion.lua"
+          }
+        },
       }
     }
   }
