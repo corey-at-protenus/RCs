@@ -302,6 +302,16 @@ if F.is_executable("claude") then
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
     config = true,
+    opts = {
+      terminal = {
+        snacks_win_opts = {
+          position = "bottom",
+          height = 0.4,
+          width = 1.0,
+          border = "single",
+        }
+      }
+    },
     keys = {
       { "<leader>ai", nil, desc = "AI/Claude Code" },
       { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
