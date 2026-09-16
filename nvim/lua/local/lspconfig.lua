@@ -98,6 +98,10 @@ end
 
 local config = function()
 
+  -- scalino-lsp uses Neovim's built-in LSP configuration API (0.11+), not
+  -- nvim-lspconfig's legacy server registry.
+  require("local.scalino").setup({})
+
   -- some diagnostic settings
   vim.diagnostic.config({
     severity_sort = true,

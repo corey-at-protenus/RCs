@@ -8,6 +8,23 @@ local nvim_metals_group = api.nvim_create_augroup("nvim-metals", { clear = true 
 
 local ft = { "scala", "sbt", "java" }
 
+-- Metals is only useful in an sbt project.  Return the project root (the
+-- directory containing a build.sbt) for the given buffer, or nil if there
+-- isn't one.  Keyed off the buffer's filename, not the CWD.
+local find_sbt_root = function(bufnr)
+  local filepath = api.nvim_buf_get_name(bufnr)
+  if filepath == "" then
+    return nil
+  end
+
+  local build_file = vim.fs.find("build.sbt", {
+    upward = true,
+    path = vim.fs.dirname(filepath),
+  })[1]
+
+  return build_file and vim.fs.dirname(build_file) or nil
+end
+
 local opts = function()
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
   local metals_config = require("metals").bare_config()
@@ -89,11 +106,14 @@ local config = function(self, metals_config)
   -- dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
 
 
-  -- Autocmd that starts up Metals
+  -- Autocmd that starts up Metals, but only inside an sbt project so it
+  -- doesn't try to attach to arbitrary Scala buffers.
   api.nvim_create_autocmd("FileType", {
     pattern = self.ft,
-    callback = function()
-      require("metals").initialize_or_attach(metals_config)
+    callback = function(args)
+      if find_sbt_root(args.buf) then
+        require("metals").initialize_or_attach(metals_config)
+      end
     end,
     group = nvim_metals_group,
   })
