@@ -274,7 +274,12 @@ local to_install = {
   {
     "OXY2DEV/markview.nvim",
     lazy = false,
-    ft = { "markdown", "codecompanion" }
+    ft = { "markdown", "codecompanion" },
+    config = function ()
+      require("markview.extras.checkboxes");
+      require("markview.extras.headings").setup();
+      require("markview.extras.editor").setup();
+    end
   },
   {
     "coreyoconnor/codecompanion.nvim",

@@ -1,0 +1,21 @@
+{
+  "lastChangelogVersion": "0.84.2",
+  "theme": "dark",
+  "defaultProvider": "openrouter",
+  "defaultModel": "auto",
+  "defaultThinkingLevel": "medium",
+  "packages": [
+    "npm:@gotgenes/pi-permission-system",
+    "npm:pi-clear",
+    "npm:@monotykamary/pi-retry",
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-context-view",
+    {
+      "source": "/home/coconnor/.config/nono/packages/nolabs-ai/pi"
+    },
+    "npm:@gotgenes/pi-subagents",
+    "npm:pi-mcp-adapter",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-openrouter-session"
+  ]
+}

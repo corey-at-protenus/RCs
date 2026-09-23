@@ -97,7 +97,6 @@ local attach_func = function(client, bufnr)
 end
 
 local config = function()
-
   -- some diagnostic settings
   vim.diagnostic.config({
     severity_sort = true,
@@ -109,8 +108,10 @@ local config = function()
     root_markers = { '.git', '.scala-build', 'gradlew', 'settings.gradle' },
   })
 
-  -- extra Neovim Lua stuff
-  -- require("neodev").setup()
+  -- scala
+  if F.is_executable("scalino-lsp") then
+    require("local.scalino").setup({})
+  end
 
   -- lua lsp
   vim.lsp.config('lua_ls', {
