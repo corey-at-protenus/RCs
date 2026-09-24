@@ -16,6 +16,7 @@
     "npm:@gotgenes/pi-subagents",
     "npm:pi-mcp-adapter",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-openrouter-session"
+    "npm:pi-openrouter-session",
+    "git:github.com/MetalbolicX/opencode-ponytail"
   ]
 }
