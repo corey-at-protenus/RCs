@@ -1,5 +1,4 @@
 local F = require('local.functions')
-local lspconfig = require('local.lspconfig')
 local map = F.map
 local shiftk = F.shiftk
 local api = vim.api
