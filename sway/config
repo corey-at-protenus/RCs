@@ -44,33 +44,30 @@ workspace "Ops" output "Dell Inc. AW3423DWF 57T42S3"
 focus_wrapping workspace
 
 ### window mappings ###
-assign [class="^Spotify$"] "Media"
-
 for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 20
 #layer_effects launcher {
 #  blur enable;
 #  shadows enable;
 #}
-for_window [app_id="^[wW]aydroid.*"] floating enable, border pixel 20
 for_window [app_id="^firefox$" title="Picture-in-Picture"] floating enable, sticky enable, border pixel 20
 
 for_window [instance="^NordPass"] border pixel 5, "Comms"
-for_window [title="^Inbox.*coreyoconnor.*Gmail" app_id="^firefox$"] "Comms"
-for_window [title="^Amazon WorkMail" app_id="^firefox$"] "Comms"
-for_window [title="^Messenger" app_id="^firefox$"] "Comms"
 for_window [class="^Keybase"] floating enable, border pixel 20, move position mouse, "Comms"
-assign [class="^taskade$"] "Comms"
 assign [class="^NordPass$"] "Comms"
 assign [class="^discord$"] "Comms"
 
-for_window [class="^Beyond-All-Reason"] floating enable, border pixel 20
-for_window [class="^spring" instance="spring" title="Beyond All Reason"] border pixel 0, floating enable, fullscreen enable
 assign [class="^steam$"] "Games"
 for_window [class="^valheim"] fullscreen enable, inhibit_idle visible
 assign [class="^valheim"] "Games"
 
 assign [app_id="^Waydroid$"] "Android"
 for_window [app_id="^Waydroid$"] border pixel 0, fullscreen enable
+
+## input ##
+
+input "type:keyboard" {
+  xkb_layout "us"
+}
 
 ### key mappings ###
 
