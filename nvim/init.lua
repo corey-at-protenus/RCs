@@ -303,7 +303,7 @@ local to_install = {
 }
 
 if F.is_executable("claude") then
-  table.insert(to_install, require('local.claudecode'))
+  table.insert(to_install, require('local.claude-context'))
 end
 
 
